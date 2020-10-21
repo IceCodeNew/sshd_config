@@ -1,4 +1,4 @@
-# K4YT3X's Hardened OpenSSH Server Configuration
+# IceCodeNew's Hardened OpenSSH Server Configuration
 
 This repository hosts my hardened version of OpenSSH server (>=8.5) configuration file. You will need to modify the configuration according to the error messages if you want to use this configuration for older versions of OpenSSH.
 
@@ -16,17 +16,16 @@ In addition to this configuration, you may also want to check out the [SSH Harde
 
 ```shell
 # download the configuration file from GitHub using curl or other methods
-curl https://raw.githubusercontent.com/k4yt3x/sshd_config/master/sshd_config -o ~/sshd_config
+cd ~ || exit 1
+curl -LROJq --retry 5 --retry-delay 10 --retry-max-time 60 'https://raw.githubusercontent.com/IceCodeNew/sshd_config/master/sshd_config'
 
 # backup the original sshd_config
 sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config.backup
 
 # replace the old sshd_config with the new one
-sudo mv ~/sshd_config /etc/ssh/sshd_config
-
-# make sure the file has the correct ownership and permissions
-sudo chown root:root /etc/ssh/sshd_config
-sudo chmod 644 /etc/ssh/sshd_config
+# should also make sure the file has the correct ownership and permissions
+sudo install -o root -g root -m 644 ~/sshd_config /etc/ssh/sshd_config
+rm ~/sshd_config
 
 # use systemctl to reload the SSH server and apply the new configurations
 # on some distributions the SSH server service is called sshd
