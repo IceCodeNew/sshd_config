@@ -36,19 +36,19 @@ AcceptEnv XMODIFIERS
 PermitUserEnvironment no
 
 # disallow ssh-agent forwarding to prevent lateral movement
-AllowAgentForwarding no
+AllowAgentForwarding yes
 
 # prevent TCP ports from being forwarded over SSH tunnels
 # **please be aware that disabling TCP forwarding does not prevent port forwarding**
 # any user with an interactive login shell can spin up his/her own instance of sshd
-AllowTcpForwarding no
+AllowTcpForwarding yes
 
 # prevent StreamLocal (Unix-domain socket) forwarding
 AllowStreamLocalForwarding no
 
 # disables all forwarding features
 # overrides all other forwarding switches
-DisableForwarding yes
+DisableForwarding no
 
 # disallow remote hosts from connecting to forwarded ports
 # i.e. forwarded ports are forced to bind to 127.0.0.1 instead of 0.0.0.0
@@ -66,10 +66,10 @@ X11Forwarding no
 ########## Authentication ##########
 
 # permit only the specified users to login
-#AllowUsers k4yt3x
+#AllowUsers root
 
 # permit only users within the specified groups to login
-#AllowGroups k4yt3x
+#AllowGroups sudo
 
 # uncomment the following options to permit only pubkey authentication
 # be aware that this will disable password authentication
@@ -77,7 +77,7 @@ X11Forwarding no
 #   - PasswordAuthentication: set to no to disable password authentication
 #   - UsePAM: set to no to disable all PAM authentication, also disables PasswordAuthentication when set to no
 #AuthenticationMethods publickey
-#PasswordAuthentication no
+PasswordAuthentication no
 #UsePAM no
 
 # PAM authentication enabled to make password authentication available
@@ -89,13 +89,13 @@ UsePAM yes
 ChallengeResponseAuthentication no
 
 # set maximum authentication retries to prevent brute force attacks
-MaxAuthTries 3
+#MaxAuthTries 3
 
 # disallow connecting using empty passwords
 PermitEmptyPasswords no
 
 # prevent root from being logged in via SSH
-PermitRootLogin no
+#PermitRootLogin no
 
 # enable pubkey authentication
 PubkeyAuthentication yes
@@ -130,11 +130,11 @@ KexAlgorithms sntrup761x25519-sha512@openssh.com,curve25519-sha256,curve25519-sh
 #DebianBanner no
 
 # number of client alive messages sent without client responding
-ClientAliveCountMax 2
+ClientAliveCountMax 16
 
-# send a keepalive message to the client when the session has been idle for 300 seconds
+# send a keepalive message to the client when the session has been idle for 320 seconds
 # this prevents/detects connection timeouts
-ClientAliveInterval 300
+ClientAliveInterval 320
 
 # compression before encryption might cause security issues
 Compression no
@@ -146,7 +146,7 @@ IgnoreRhosts yes
 #LogLevel VERBOSE
 
 # allow a maximum of two multiplexed sessions over a single TCP connection
-MaxSessions 2
+#MaxSessions 2
 
 # enforce SSH server to only use SSH protocol version 2
 # SSHv1 contains security issues and should be avoided at all costs
@@ -166,3 +166,10 @@ TCPKeepAlive no
 
 # disable reverse DNS lookups
 UseDNS no
+
+# Authentication:
+LoginGraceTime 2m
+PermitRootLogin prohibit-password
+StrictModes yes
+MaxAuthTries 6
+MaxSessions 10
